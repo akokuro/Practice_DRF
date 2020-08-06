@@ -46,6 +46,7 @@ class UserListViewTest(TestCase):
         resp = self.login('Username3', 'password3')
         json_data = json.decoder.JSONDecoder().decode(resp.content.decode("utf-8"))
         token = json_data["token"]
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
         header = f"Token {token}"
         resp = self.client.post('/hello/', data=b'[\'Hello\']', content_type="application/json", Authorization=header)
         self.assertEqual(resp.content, b'[\'Hello\']')
@@ -102,7 +103,7 @@ class UserListViewTest(TestCase):
             
     def test_signup_authogenerate_credentials(self):
         """Тестирование регистрации автосгенерированного пользователя"""
-        resp = self.client.get('/signup/?thinkforme=true') 
+        resp = self.client.post('/signup/?thinkforme=true') 
         self.assertEqual(resp.status_code, 201)
 
     
