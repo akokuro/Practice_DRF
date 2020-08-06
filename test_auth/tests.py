@@ -69,35 +69,27 @@ class UserListViewTest(TestCase):
     def test_signup_with_exists_username(self):
         """Тестирование регистрации существующего пользователя"""
         resp = self.signup('Username4', 'password6')
-        # self.client.raise_request_exception = True
-        # with self.assertRaises(IntegrityError):
         self.assertEqual(resp.status_code, 403)
 
     def test_signup_with_incorrect_credentials(self):
         """Тестирование регистрации пользователя с несоответствующими шаблону данными"""
         self.client.raise_request_exception = True
         # Логин больше 12 символов
-        # with self.assertRaises(ValidationError):
         resp = self.signup('Username412313432113', 'password6')
         self.assertEqual(resp.status_code, 401)
         # Пароль больше 12 символов
-        # with self.assertRaises(ValidationError):
         resp = self.signup('Username7', 'password63875389310')
         self.assertEqual(resp.status_code, 401)
         # Логин меньше 6 символов
-        # with self.assertRaises(ValidationError):
         resp = self.signup('User', 'password6')
         self.assertEqual(resp.status_code, 401)
         # Пароль меньше 6 символов
-        # with self.assertRaises(ValidationError):
         resp = self.signup('Username41', 'pass')
         self.assertEqual(resp.status_code, 401)
         # Логин состоит не только из английских букв и цифр
-        # with self.assertRaises(ValidationError):
         resp = self.signup('Username4!', 'password6')
         self.assertEqual(resp.status_code, 401)
         # Пароль состоит не только из английский букв и цифр
-        # with self.assertRaises(ValidationError):
         resp = self.signup('Username10', 'password!')
         self.assertEqual(resp.status_code, 401)
             
