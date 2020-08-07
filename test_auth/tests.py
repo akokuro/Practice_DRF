@@ -1,4 +1,4 @@
-from django.test import TestCase
+from rest_framework.test import APITestCase as TestCase
 
 # Create your tests here.
 
@@ -47,9 +47,8 @@ class UserListViewTest(TestCase):
         json_data = json.decoder.JSONDecoder().decode(resp.content.decode("utf-8"))
         token = json_data["token"]
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
-        header = f"Token {token}"
-        resp = self.client.post('/hello/', data=b'[\'Hello\']', content_type="application/json", Authorization=header)
-        self.assertEqual(resp.content, b'[\'Hello\']')
+        resp = self.client.post('/hello/', data="adsgfsgfs", content_type="text/plain")
+        self.assertEqual(resp.content, b'\"adsgfsgfs\"')
     
     def test_correct_signup(self):
         """Тестирование регистрации пользователя с корректными данными"""

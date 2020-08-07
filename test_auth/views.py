@@ -1,16 +1,17 @@
 from rest_framework import status
-from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.exceptions import NotAuthenticated
+from rest_framework.views import APIView, exception_handler
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.exceptions import NotAuthenticated, ValidationError
+
 from django.http import JsonResponse
 from django.db.utils import IntegrityError
+
 from .models import MyUser
+from .parsers import EverythingParser
+from .backends import JWTAuthentication
 from .serializers import LoginSerializer
 from .serializers import RegistrationSerializer
-from .backends import JWTAuthentication
-from rest_framework.views import exception_handler 
-from rest_framework.exceptions import NotAuthenticated, ValidationError
 
 def ExceptionHandler(exc, context):
     """Реагирует на исключение
@@ -88,9 +89,10 @@ class HelloApiView(APIView):
     Доступен только авторизованным пользователям"""
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-
+    parser_classes = [EverythingParser]
     def post(self, request):
         """Обработка post-запроса
         Если пользователь авторизован, то возвращает тело запроса"""
+        print(request.data)
         return Response(request.data, status=status.HTTP_200_OK)
 
