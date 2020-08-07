@@ -148,7 +148,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'test_auth.backends.JWTAuthentication',
         ),
-    'EXCEPTION_HANDLER': 'test_auth.views.ExceptionHandler'
+    'EXCEPTION_HANDLER': 'test_auth.views.custom_exception_handler'
 }
 
 AUTH_USER_MODEL = 'test_auth.MyUser'

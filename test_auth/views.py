@@ -13,7 +13,7 @@ from .backends import JWTAuthentication
 from .serializers import LoginSerializer
 from .serializers import RegistrationSerializer
 
-def ExceptionHandler(exc, context):
+def custom_exception_handler(exc, context):
     """Реагирует на исключение
     Если исключение NotAuthenticated(неавторизованный запрос на hello), возвращает 401
     Если  IntegrityError(попытка регистрации под существующим username), возвращает 403
