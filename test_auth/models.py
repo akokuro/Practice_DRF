@@ -3,10 +3,9 @@ from django.db import models
 # Create your models here.
 
 import jwt
-
+from . import namegenerator
 from datetime import datetime
 from datetime import timedelta
-
 from django.conf import settings
 from django.core import validators
 from django.utils.crypto import get_random_string
@@ -63,11 +62,12 @@ class UserManager(BaseUserManager):
         return self._create_user(username, password, **extra_fields)
 
     def make_random_username(self):
-        for i in range(500):
-            username = get_random_string(12)
-            if self.get(username=username) is None:
-                return username
-        raise Exception("unlucky")
+        username = namegenerator.gen()
+        try:
+            self.get(username=username)
+        except Exception: 
+            return username
+        raise Exception("Try again")
 
     def make_random_password(self):
         return get_random_string(12)

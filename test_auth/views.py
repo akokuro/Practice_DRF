@@ -49,7 +49,7 @@ class RegistrationAPIView(APIView):
         Иначе регистрирует пользователя из данных полученного json и вохвращает в json токен
         """
         if "thinkforme" in request.query_params and request.query_params["thinkforme"] == "true":
-            username = MyUser.objects.make_random_password()
+            username = MyUser.objects.make_random_username()
             password = MyUser.objects.make_random_password()
             serializer = self.register_user(username,password)
             return Response(
