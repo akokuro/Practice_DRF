@@ -24,7 +24,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
     )
 
     username = serializers.CharField(
-        max_length=12,
+        max_length=30,
         min_length=6,
         write_only=True,
     )
